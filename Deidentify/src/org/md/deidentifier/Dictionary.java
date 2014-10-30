@@ -17,12 +17,16 @@ public class Dictionary {
 	public void createDictionary(Instances data)
 	{
 		// encode attribute names
+		valueKeys= new ArrayList<Key>();
+		nameKeys= new ArrayList<Key>();
 		Key key;
+		Instances newData = new Instances(null, null, 0);
 		for (int i = 0; i < data.numAttributes(); i++)
 		{
 			if (data.attribute(i).isNominal())
 			{
 				key = new Key(i,data.attribute(i).name(),"attribute"+i);
+				
 				nameKeys.add(key);
 				data.renameAttribute(data.attribute(i), key.newValue);
 			}
@@ -34,6 +38,7 @@ public class Dictionary {
 		Instance ins;
 		for (int i = 0; i < data.numInstances(); i++)
 		{
+			System.out.println("patata" + i);
 			ins = data.instance(i);
 			for (int j = 0; j < data.numAttributes(); j++)
 			{
@@ -42,14 +47,17 @@ public class Dictionary {
 					String value = hasAppeared(j, ins.stringValue(j));
 					if (value!=null)
 					{
-						
+						data.attribute(j).addStringValue(value);
 						ins.setValue(j, value);
 					}
 					else
 					{
 						indexes[j]=indexes[j]+1;
 						value = createKey(j, ins.stringValue(j), indexes[j]);
+						System.out.println(data.
+						System.out.println(data.attribute(j).value(8));
 						ins.setValue(j, value);
+						
 					}
 				}
 			}
